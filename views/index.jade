@@ -1,0 +1,29 @@
+include ./head.jade
+form#sort
+  input#number(type="number", min="15", max="100",step="1", value="10")
+  select#speed
+    option( value="60") fast
+    option( value="300") middle
+    option( value="700") slow
+  input(type="submit")
+  div.checksort
+    input.check(type="checkbox", name="Stupid", value="stupid", checked)
+    div Stupid
+  div.checksort
+    input.check(type="checkbox", name="Bubble", value="bubble", checked)
+    div Bubble
+div#starting
+  button#reset Reset
+  button#start Start
+div#stupidcont(class="conteiner")
+  div Stupid sort
+  div#stupid(class="row")
+  div Stupid sort counter: 
+    p#stupidcounter(class="counter") 0
+div#bubblecont(class="conteiner")
+  div Bubble sort
+  div#bubble(class="row")
+  div Bubble sort counter: 
+    p#bubblecounter(class="counter") 0
+script(src="./async.js")
+script(src="./main.js")
