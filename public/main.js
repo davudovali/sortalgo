@@ -3466,8 +3466,8 @@ System.get("traceur-runtime@0.0.92/src/runtime/polyfills/polyfills.js" + '');
 
 System.registerModule("main.js", [], function(require) {
   "use strict";
-  var $__7 = $traceurRuntime.initTailRecursiveFunction(deleteElem);
-  var $__3 = $traceurRuntime.initGeneratorFunction(deleteElem);
+  var $__11 = $traceurRuntime.initTailRecursiveFunction(deleteElem);
+  var $__5 = $traceurRuntime.initGeneratorFunction(deleteElem);
   var __moduleName = "main.js";
   $("#sort").submit(function() {
     var i,
@@ -3649,7 +3649,11 @@ System.registerModule("main.js", [], function(require) {
                 $ctx.state = 6;
                 break;
               case 19:
-                $ctx.state = (trigger !== arr.length) ? 26 : -2;
+                $ctx.state = (trigger !== arr.length) ? 26 : 24;
+                break;
+              case 24:
+                $(arr).css({"background-color": "blue"});
+                $ctx.state = -2;
                 break;
               default:
                 return $traceurRuntime.continuation($ctx.end, $ctx, []);
@@ -3727,13 +3731,273 @@ System.registerModule("main.js", [], function(require) {
                 $ctx.state = 4;
                 break;
               case 17:
-                $ctx.state = (trigger !== arr.length) ? 24 : -2;
+                $ctx.state = (trigger !== arr.length) ? 24 : 22;
+                break;
+              case 22:
+                $(arr).css({"background-color": "blue"});
+                $ctx.state = -2;
                 break;
               default:
                 return $traceurRuntime.continuation($ctx.end, $ctx, []);
             }
         }, this, arguments);
       }), $__2, this]);
+    }, this, arguments);
+  }));
+  gen.iter.coctail = $traceurRuntime.initGeneratorFunction($traceurRuntime.initTailRecursiveFunction(function $__3(iterName, speed) {
+    return $traceurRuntime.call(function(iterName, speed) {
+      var arr,
+          trigger,
+          elem,
+          elem2,
+          counter,
+          i,
+          endAmount;
+      return $traceurRuntime.continuation($traceurRuntime.createGeneratorInstance, $traceurRuntime, [$traceurRuntime.initTailRecursiveFunction(function($ctx) {
+        return $traceurRuntime.call(function($ctx) {
+          while (true)
+            switch ($ctx.state) {
+              case 0:
+                endAmount = 0;
+                arr = document.getElementById(iterName).children;
+                elem, elem2;
+                counter = 0;
+                $ctx.state = 57;
+                break;
+              case 57:
+                trigger = arr.length;
+                $ctx.state = 50;
+                break;
+              case 50:
+                i = endAmount;
+                $ctx.state = 25;
+                break;
+              case 25:
+                $ctx.state = (i < (arr.length - endAmount)) ? 19 : 23;
+                break;
+              case 22:
+                ++i;
+                $ctx.state = 25;
+                break;
+              case 19:
+                elem = $(arr[i]);
+                elem2 = $(arr[i + 1]);
+                $ctx.state = 20;
+                break;
+              case 20:
+                $ctx.state = (i < (arr.length - endAmount - 1)) ? 13 : 16;
+                break;
+              case 13:
+                $ctx.state = (+elem.attr('value') > +elem2.attr('value')) ? 5 : 11;
+                break;
+              case 5:
+                changePlace(elem, elem2, iterName, speed);
+                trigger--;
+                $("#" + iterName + "counter").text(++counter);
+                $ctx.state = 6;
+                break;
+              case 6:
+                $ctx.state = 2;
+                return;
+              case 2:
+                $ctx.maybeThrow();
+                $ctx.state = 4;
+                break;
+              case 11:
+                ligthElems(elem, elem2, iterName, speed);
+                $ctx.state = 12;
+                break;
+              case 12:
+                $ctx.state = 8;
+                return;
+              case 8:
+                $ctx.maybeThrow();
+                $ctx.state = 4;
+                break;
+              case 4:
+                ;
+                $ctx.state = 15;
+                break;
+              case 16:
+                elem.css({'background-color': 'blue'});
+                $ctx.state = 15;
+                break;
+              case 15:
+                ;
+                $ctx.state = 22;
+                break;
+              case 23:
+                ;
+                $ctx.state = 52;
+                break;
+              case 52:
+                i = (arr.length - 2 - endAmount);
+                $ctx.state = 48;
+                break;
+              case 48:
+                $ctx.state = (i !== endAmount) ? 42 : 46;
+                break;
+              case 45:
+                i--;
+                $ctx.state = 48;
+                break;
+              case 42:
+                elem = $(arr[i]);
+                elem2 = $(arr[i - 1]);
+                $ctx.state = 43;
+                break;
+              case 43:
+                $ctx.state = (i > endAmount) ? 38 : 40;
+                break;
+              case 38:
+                $ctx.state = (+elem.attr('value') < +elem2.attr('value')) ? 30 : 36;
+                break;
+              case 30:
+                changePlace(elem, elem2, iterName, speed);
+                trigger--;
+                $("#" + iterName + "counter").text(++counter);
+                $ctx.state = 31;
+                break;
+              case 31:
+                $ctx.state = 27;
+                return;
+              case 27:
+                $ctx.maybeThrow();
+                $ctx.state = 29;
+                break;
+              case 36:
+                ligthElems(elem, elem2, iterName, speed);
+                $ctx.state = 37;
+                break;
+              case 37:
+                $ctx.state = 33;
+                return;
+              case 33:
+                $ctx.maybeThrow();
+                $ctx.state = 29;
+                break;
+              case 29:
+                ;
+                $ctx.state = 40;
+                break;
+              case 40:
+                ;
+                if (i == (endAmount + 1)) {
+                  $(arr[i - 1]).css({"background-color": "blue"});
+                }
+                ;
+                $ctx.state = 45;
+                break;
+              case 46:
+                ;
+                endAmount += 1;
+                $ctx.state = 54;
+                break;
+              case 54:
+                $ctx.state = (trigger !== arr.length) ? 57 : 55;
+                break;
+              case 55:
+                $(arr).css({"background-color": "blue"});
+                $ctx.state = -2;
+                break;
+              default:
+                return $traceurRuntime.continuation($ctx.end, $ctx, []);
+            }
+        }, this, arguments);
+      }), $__3, this]);
+    }, this, arguments);
+  }));
+  gen.iter["odd-even"] = $traceurRuntime.initGeneratorFunction($traceurRuntime.initTailRecursiveFunction(function $__4(iterName, speed) {
+    return $traceurRuntime.call(function(iterName, speed) {
+      var arr,
+          trigger,
+          elem,
+          elem2,
+          counter,
+          i,
+          oddEvenTrigger;
+      return $traceurRuntime.continuation($traceurRuntime.createGeneratorInstance, $traceurRuntime, [$traceurRuntime.initTailRecursiveFunction(function($ctx) {
+        return $traceurRuntime.call(function($ctx) {
+          while (true)
+            switch ($ctx.state) {
+              case 0:
+                oddEvenTrigger = 0;
+                arr = document.getElementById(iterName).children;
+                elem, elem2;
+                counter = 0;
+                $ctx.state = 26;
+                break;
+              case 26:
+                trigger = arr.length;
+                $ctx.state = 21;
+                break;
+              case 21:
+                i = oddEvenTrigger;
+                $ctx.state = 19;
+                break;
+              case 19:
+                $ctx.state = (i < (arr.length - 1)) ? 15 : 17;
+                break;
+              case 4:
+                i += 2;
+                $ctx.state = 19;
+                break;
+              case 15:
+                elem = $(arr[i]);
+                elem2 = $(arr[i + 1]);
+                $ctx.state = 16;
+                break;
+              case 16:
+                $ctx.state = (elem2) ? 13 : 4;
+                break;
+              case 13:
+                $ctx.state = (+elem.attr('value') > +elem2.attr('value')) ? 5 : 11;
+                break;
+              case 5:
+                changePlace(elem, elem2, iterName, speed);
+                trigger--;
+                $("#" + iterName + "counter").text(++counter);
+                $ctx.state = 6;
+                break;
+              case 6:
+                $ctx.state = 2;
+                return;
+              case 2:
+                $ctx.maybeThrow();
+                $ctx.state = 4;
+                break;
+              case 11:
+                ligthElems(elem, elem2, iterName, speed);
+                $ctx.state = 12;
+                break;
+              case 12:
+                $ctx.state = 8;
+                return;
+              case 8:
+                $ctx.maybeThrow();
+                $ctx.state = 4;
+                break;
+              case 17:
+                if (oddEvenTrigger) {
+                  oddEvenTrigger = 0;
+                } else {
+                  oddEvenTrigger = 1;
+                }
+                ;
+                $ctx.state = 23;
+                break;
+              case 23:
+                $ctx.state = (trigger !== arr.length) ? 26 : 24;
+                break;
+              case 24:
+                $(arr).css({"background-color": "blue"});
+                $ctx.state = -2;
+                break;
+              default:
+                return $traceurRuntime.continuation($ctx.end, $ctx, []);
+            }
+        }, this, arguments);
+      }), $__4, this]);
     }, this, arguments);
   }));
   function deleteElem(iterName, trigger) {
@@ -3779,7 +4043,7 @@ System.registerModule("main.js", [], function(require) {
                 return $traceurRuntime.continuation($ctx.end, $ctx, []);
             }
         }, this, arguments);
-      }), $__3, this]);
+      }), $__5, this]);
     }, this, arguments);
   }
   return {};
