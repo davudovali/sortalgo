@@ -57,9 +57,6 @@ function createElem(amount) {
       elem = '<div value="' + value + '" class="' + cls + '">' + value + '</div>';       
       cont.append(elem);                                                           
     };
-    elemWidth = $('.' + cls).css('width');
-    width += +(elemWidth.slice(0, -2)) + 14;
-    parent.css('width', width + 'px' );
     amount--;                                                                      
   };
 };

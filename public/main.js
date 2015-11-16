@@ -3534,9 +3534,6 @@ System.registerModule("main.js", [], function(require) {
         cont.append(elem);
       }
       ;
-      elemWidth = $('.' + cls).css('width');
-      width += +(elemWidth.slice(0, -2)) + 14;
-      parent.css('width', width + 'px');
       amount--;
     }
     ;
