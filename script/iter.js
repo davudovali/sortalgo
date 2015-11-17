@@ -16,7 +16,7 @@ function changePlace(a, b, iterName, speed) {
     b.css({'background-color' : 'black'});                                              
     a.replaceWith(j);                                                              
     b.replaceWith(c);                                                              
-    gen[iterName].next();                                                          
+    gen.ready[iterName].next();                                                          
     });                                                                            
 }                                                                                  
 
@@ -28,7 +28,7 @@ function ligthElems(a, b, iterName, speed) {
     .animate({top: 0}, ( speed  ), function() {
     a.css({'background-color' : 'black'});                                              
     b.css({'background-color' : 'black'});                                              
-    gen[iterName].next();                                                          
+    gen.ready[iterName].next();                                                          
     });                                                                            
 }
 

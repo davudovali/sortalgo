@@ -3496,8 +3496,8 @@ System.registerModule("main.js", [], function(require) {
         return false;
       for (var i = 0; i < gen.sort.length; i++) {
         var iter = gen.sort[i];
-        gen[iter] = gen.iter[iter](iter, +gen.speed);
-        gen[iter].next();
+        gen.ready[iter] = gen.iter[iter](iter, +gen.speed);
+        gen.ready[iter].next();
       }
       ;
       trigger = true;
@@ -3505,6 +3505,10 @@ System.registerModule("main.js", [], function(require) {
     $("#reset").click(function() {
       trigger = false;
       $("#starting").toggle('fast');
+      for (var i in gen.ready) {
+        gen.ready[i] = {};
+      }
+      ;
       cleanConteiner();
       gen.sort = [];
     });
@@ -3556,7 +3560,8 @@ System.registerModule("main.js", [], function(require) {
   var gen = {
     removeIter: {},
     sort: [],
-    iter: {}
+    iter: {},
+    ready: {}
   };
   function changePlace(a, b, iterName, speed) {
     var aPosition = a.offset();
@@ -3569,7 +3574,7 @@ System.registerModule("main.js", [], function(require) {
       b.css({'background-color': 'black'});
       a.replaceWith(j);
       b.replaceWith(c);
-      gen[iterName].next();
+      gen.ready[iterName].next();
     });
   }
   function ligthElems(a, b, iterName, speed) {
@@ -3577,7 +3582,7 @@ System.registerModule("main.js", [], function(require) {
     b.css({'background-color': 'red'}).animate({top: 0}, (speed), function() {
       a.css({'background-color': 'black'});
       b.css({'background-color': 'black'});
-      gen[iterName].next();
+      gen.ready[iterName].next();
     });
   }
   gen.iter.stupid = $traceurRuntime.initGeneratorFunction($traceurRuntime.initTailRecursiveFunction(function $__1(iterName, speed) {

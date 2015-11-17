@@ -26,8 +26,8 @@ $("#sort").submit(function() {
     if(trigger) return false;
     for( var i = 0; i < gen.sort.length; i++) {
       var iter = gen.sort[i];
-      gen[iter] = gen.iter[iter](iter, +gen.speed); 
-      gen[iter].next();                                                               
+      gen.ready[iter] = gen.iter[iter](iter, +gen.speed); 
+      gen.ready[iter].next();                                                               
     };
     trigger = true;
   });
@@ -35,6 +35,9 @@ $("#sort").submit(function() {
   $("#reset").click(function() {
     trigger = false;
     $("#starting").toggle('fast');
+    for(var i in gen.ready) {
+      gen.ready[i] = {};
+    };
     cleanConteiner();
     gen.sort = [];
   });
@@ -74,7 +77,8 @@ function cleanConteiner() {
 var gen = {                                                                        
   removeIter: {},
   sort: [],
-  iter: {}
+  iter: {},
+  ready: {}
 };                                                                                 
                                                                                    
 
@@ -96,7 +100,7 @@ function changePlace(a, b, iterName, speed) {
     b.css({'background-color' : 'black'});                                              
     a.replaceWith(j);                                                              
     b.replaceWith(c);                                                              
-    gen[iterName].next();                                                          
+    gen.ready[iterName].next();                                                          
     });                                                                            
 }                                                                                  
 
@@ -108,7 +112,7 @@ function ligthElems(a, b, iterName, speed) {
     .animate({top: 0}, ( speed  ), function() {
     a.css({'background-color' : 'black'});                                              
     b.css({'background-color' : 'black'});                                              
-    gen[iterName].next();                                                          
+    gen.ready[iterName].next();                                                          
     });                                                                            
 }
 

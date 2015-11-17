@@ -1,17 +1,7 @@
 body {
   font-family: arial;
-}
-input,
-button,
-select,
-div.checksort {
-  background: #fff;
-  border: 1px solid #000;
-  border-radius: 3px;
-  width: 100px;
-  height: 35px;
-  font-size: 1.2em;
-  margin: 5px;
+  width: 90%;
+  margin: 0 5% 0 5%;
 }
 div.checksort {
   padding: 0;
@@ -24,6 +14,7 @@ div.checksort div {
   display: inline-block;
 }
 div#starting {
+  left: 40%;
   display: none;
   position: relative;
   margin: 3vw;
@@ -38,10 +29,22 @@ form#sort {
   top: 30%;
   left: 30%;
 }
-form#sort div {
+form input,
+form button,
+form select,
+form div.checksort {
+  background: #fff;
+  border: 1px solid #000;
+  border-radius: 3px;
+  width: 100px;
+  height: 35px;
+  font-size: 1em;
+  margin: 5px;
+}
+form div {
   font-size: 1em;
 }
-form#sort input.check {
+form input.check {
   height: 20px;
 }
 div.conteiner {
@@ -50,10 +53,11 @@ div.conteiner {
 }
 .counter {
   display: inline-block;
+  margin-left: 5px;
 }
 .row {
   margin: 10px 0 10px 0;
-  max-width: 80%;
+  max-width: 100%;
   color: #fff;
 }
 .row div {
@@ -66,4 +70,20 @@ div.conteiner {
   padding: 5px;
   text-align: center;
   border-radius: 30px;
+}
+#reset {
+  background: url("/image/stop.svg") center no-repeat;
+  background-size: 30px;
+  height: 30px;
+  width: 30px;
+  border: 0px;
+  margin: 5px;
+}
+#start {
+  background: url("/image/play.svg") center no-repeat;
+  background-size: 30px;
+  height: 30px;
+  width: 30px;
+  border: 0px;
+  margin: 5px;
 }
