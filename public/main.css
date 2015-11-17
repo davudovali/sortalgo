@@ -1,3 +1,6 @@
+body {
+  font-family: arial;
+}
 input,
 button,
 select,
@@ -35,6 +38,12 @@ form#sort {
   top: 30%;
   left: 30%;
 }
+form#sort div {
+  font-size: 1em;
+}
+form#sort input.check {
+  height: 20px;
+}
 div.conteiner {
   display: none;
   margin: 3vw;
@@ -44,17 +53,17 @@ div.conteiner {
 }
 .row {
   margin: 10px 0 10px 0;
-  background: rgba(0,0,0,0.9);
-  width: 10px;
   max-width: 80%;
   color: #fff;
-  border-radius: 2px;
 }
 .row div {
   background: #000;
+  height: 20px;
+  width: 20px;
   position: relative;
   display: inline-block;
   margin: 2px 5px 2px 5px;
-  padding: 0 2px 0 2px;
-  border-radius: 2px;
+  padding: 5px;
+  text-align: center;
+  border-radius: 30px;
 }

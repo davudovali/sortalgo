@@ -56,6 +56,7 @@ gen.iter.stupid = function*(iterName,speed) {
       }                                                                             
     }                                                                               
   } while(trigger !== arr.length);                                                 
+  $(arr).css({"background-color" : "blue" });
 }                                                                                  
 
                                                                                    
@@ -83,9 +84,90 @@ gen.iter.bubble = function*(iterName, speed) {
       }                                                                             
     }                                                                               
   } while(trigger !== arr.length);                                                 
+  $(arr).css({"background-color" : "blue" });
 }                                                                                  
 
                                                                                    
+gen.iter.coctail = function*(iterName, speed) {                                                    
+  var arr, trigger, elem, elem2, counter, i, endAmount;
+  endAmount = 0; // It's need for no choose elems that place on rigth position in begin and end of array
+  arr = document.getElementById(iterName).children;                            
+  elem, elem2;                                                                 
+  counter = 0;
+  do {                                                                             
+    trigger = arr.length;                                                      
+    for (i = endAmount; i < (arr.length  - endAmount); ++i) {                                         
+     elem = $(arr[i]);                                                             
+     elem2 = $(arr[i + 1]);                                                        
+      if(i < (arr.length - endAmount - 1)) {                                                                   
+        if (+elem.attr('value') > +elem2.attr('value')){                           
+          changePlace(elem, elem2, iterName, speed);                               
+          trigger--;                                                               
+          $("#" + iterName + "counter").text(++counter);
+          yield;                                                                   
+        } else {
+          ligthElems(elem, elem2, iterName, speed);
+          yield;
+        };                                                                           
+      } else { 
+        elem.css({'background-color' : 'blue'});                                              
+      };
+    };                                                                               
+    for (i = (arr.length - 2 - endAmount); i !== endAmount; i--) {                                         
+     elem = $(arr[i]);                                                             
+     elem2 = $(arr[i - 1]);                                                        
+      if( i > endAmount) {                                                                   
+        if (+elem.attr('value') < +elem2.attr('value')){                           
+          changePlace(elem, elem2, iterName, speed);                               
+          trigger--;                                                               
+          $("#" + iterName + "counter").text(++counter);
+          yield;                                                                   
+        } else {
+          ligthElems(elem, elem2, iterName, speed);
+          yield;
+        };                                                                           
+      };
+      if( i == (endAmount + 1) ) {
+        $(arr[i - 1]).css({"background-color" : "blue" });
+      };
+    };
+    endAmount += 1;
+  } while(trigger !== arr.length);                                                 
+  $(arr).css({"background-color" : "blue" });
+}                                                                                  
+
+gen.iter["odd-even"] = function*(iterName, speed) {                                                    
+  var arr, trigger, elem, elem2, counter, i, oddEvenTrigger;
+  oddEvenTrigger = 0;
+  arr = document.getElementById(iterName).children;                            
+  elem, elem2;                                                                 
+  counter = 0;
+  do {                                                                             
+    trigger = arr.length;                                                      
+    for (i = oddEvenTrigger; i < (arr.length - 1); i += 2) {                                         
+     elem = $(arr[i]);                                                             
+     elem2 = $(arr[i + 1]);                                                        
+      if(elem2) {                                                                   
+        if (+elem.attr('value') > +elem2.attr('value')){                           
+          changePlace(elem, elem2, iterName, speed);                               
+          trigger--;                                                               
+          $("#" + iterName + "counter").text(++counter);
+          yield;                                                                   
+        } else {
+          ligthElems(elem, elem2, iterName, speed);
+          yield;
+        }                                                                           
+      }                                                                             
+    }                                                                               
+    if(oddEvenTrigger) {
+      oddEvenTrigger = 0;
+    } else {
+      oddEvenTrigger = 1;
+    };
+  } while(trigger !== arr.length);                                                 
+  $(arr).css({"background-color" : "blue" });
+};                                                                                  
+
 function* deleteElem(iterName, trigger) {                                                       
   var arr = document.getElementById(iterName).children;
   var elem;

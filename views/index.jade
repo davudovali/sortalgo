@@ -12,6 +12,12 @@ form#sort
   div.checksort
     input.check(type="checkbox", name="Bubble", value="bubble", checked)
     div Bubble
+  div.checksort
+    input.check(type="checkbox", name="Coctail", value="coctail", checked)
+    div Coctail
+  div.checksort
+    input.check(type="checkbox", name="Odd-even", value="odd-even", checked)
+    div Odd-even
 div#starting
   button#reset Reset
   button#start Start
@@ -25,5 +31,15 @@ div#bubblecont(class="conteiner")
   div#bubble(class="row")
   div Bubble sort counter: 
     p#bubblecounter(class="counter") 0
+div#coctailcont(class="conteiner")
+  div Coctail sort
+  div#coctail(class="row")
+  div Coctail sort counter: 
+    p#coctailcounter(class="counter") 0
+div#odd-evencont(class="conteiner")
+  div Odd-even sort
+  div#odd-even(class="row")
+  div Odd-even sort counter: 
+    p#odd-evencounter(class="counter") 0
 script(src="./async.js")
 script(src="./main.js")
