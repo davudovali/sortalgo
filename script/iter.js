@@ -1,3 +1,55 @@
+
+function* deleteElem(iterName, trigger) {                                                       
+  var arr = document.getElementById(iterName).children;
+  var elem;
+  while ( arr.length ) {                                         
+    elem = $(arr[0]); 
+    elem.stop(true, true);
+    elem.animate({top: "-20px"}, 100, function() {
+      elem.remove();
+      gen.removeIter[iterName].next();
+    });                                                                
+    yield;                                                                           
+  };
+  $("#" + iterName + "cont").toggle('fast');
+  if(trigger) $("#sort").toggle().animate({top: "30%"}, 1000); 
+  $("p.counter").text('0');
+}            
+
+function pasteElem(counter, a, b, iterName, speed, arr, i, j) {
+  var elem, k, func, toLeft, bLeft, bTop;
+  a.css({'background-color' : 'red'})                                              
+    .animate({top: -30}, ( speed / 2 ), function() {
+      bLeft = b.css('left');
+      bTop = b.css('top');
+      toLeft = b.offset().left - a.offset().left;
+      k = i - 1;
+      func = function(k, j) { 
+        if(k >= j) {
+          $(arr[k]).animate({left: 40}, speed, function() {
+            k -= 1;
+            func(k, j);
+          });
+        } else {
+          a.animate({left : toLeft }, speed)
+          .animate({top : 0}, (speed/2), function() {
+            counter = $("#" + iterName + "counter").text();
+            $("#" + iterName + "counter").text(++counter);
+            a.css({'background-color' : 'black'});                                              
+            if(i == (arr.length -1)) {
+              $(arr).css({"background-color" : "blue" });
+              $("#" + iterName + 'time').removeAttr('class');
+            };
+            $(arr[j]).before(a);
+            $("#insertion > div").animate({left : 0 }, 0)
+            gen.ready[iterName].next();                                                          
+          });
+        };
+      };                                        
+      func(k, j);
+    });
+}
+
 function changePlace(a, b, iterName, speed) {                                      
   var aPosition = a.offset();                                                      
   var bPosition = b.offset();                                                      
@@ -57,6 +109,7 @@ gen.iter.stupid = function*(iterName,speed) {
     }                                                                               
   } while(trigger !== arr.length);                                                 
   $(arr).css({"background-color" : "blue" });
+  $("#" + iterName + 'time').removeAttr('class');
 }                                                                                  
 
                                                                                    
@@ -85,6 +138,7 @@ gen.iter.bubble = function*(iterName, speed) {
     }                                                                               
   } while(trigger !== arr.length);                                                 
   $(arr).css({"background-color" : "blue" });
+  $("#" + iterName + 'time').removeAttr('class');
 }                                                                                  
 
                                                                                    
@@ -134,6 +188,7 @@ gen.iter.coctail = function*(iterName, speed) {
     endAmount += 1;
   } while(trigger !== arr.length);                                                 
   $(arr).css({"background-color" : "blue" });
+  $("#" + iterName + 'time').removeAttr('class');
 }                                                                                  
 
 gen.iter["odd-even"] = function*(iterName, speed) {                                                    
@@ -166,21 +221,22 @@ gen.iter["odd-even"] = function*(iterName, speed) {
     };
   } while(trigger !== arr.length);                                                 
   $(arr).css({"background-color" : "blue" });
+  $("#" + iterName + 'time').removeAttr('class');
 };                                                                                  
 
-function* deleteElem(iterName, trigger) {                                                       
-  var arr = document.getElementById(iterName).children;
-  var elem;
-  while ( arr.length ) {                                         
-    elem = $(arr[0]); 
-    elem.stop(true, true);
-    elem.animate({top: "-20px"}, 100, function() {
-      elem.remove();
-      gen.removeIter[iterName].next();
-    });                                                                
-    yield;                                                                           
+gen.iter.insertion = function*(iterName, speed) {                                                    
+  var counter, arr, elem, elem2, counter, i, j;
+  arr = document.getElementById(iterName).children;                            
+  elem, elem2;                                                                 
+  for(i = 1; i < arr.length; i++) {
+    elem = $(arr[i]);
+    for(j = 0; j < i; j++) {
+      elem2 = $(arr[j]);
+      if(+elem.attr('value') < +elem2.attr('value')) {
+        pasteElem(counter, elem, elem2, iterName, speed, arr, i, j);
+        yield;
+        break;
+      };
+    };
   };
-  $("#" + iterName + "cont").toggle('fast');
-  if(trigger) $("#sort").toggle().animate({top: "30%"}, 1000); 
-  $("p.counter").text('0');
-}            
+};

@@ -3466,8 +3466,8 @@ System.get("traceur-runtime@0.0.92/src/runtime/polyfills/polyfills.js" + '');
 
 System.registerModule("main.js", [], function(require) {
   "use strict";
-  var $__11 = $traceurRuntime.initTailRecursiveFunction(deleteElem);
-  var $__5 = $traceurRuntime.initGeneratorFunction(deleteElem);
+  var $__8 = $traceurRuntime.initTailRecursiveFunction(deleteElem);
+  var $__1 = $traceurRuntime.initGeneratorFunction(deleteElem);
   var __moduleName = "main.js";
   $("#sort").submit(function() {
     var i,
@@ -3486,6 +3486,7 @@ System.registerModule("main.js", [], function(require) {
       $("#starting").toggle('fast');
       gen.speed = $('select#speed').val();
       createElem($('input#number').val());
+      $('#counters').toggle('fast');
     });
     return false;
   });
@@ -3494,6 +3495,7 @@ System.registerModule("main.js", [], function(require) {
     $("#start").click(function() {
       if (trigger)
         return false;
+      setTimers();
       for (var i = 0; i < gen.sort.length; i++) {
         var iter = gen.sort[i];
         gen.ready[iter] = gen.iter[iter](iter, +gen.speed);
@@ -3504,7 +3506,11 @@ System.registerModule("main.js", [], function(require) {
     });
     $("#reset").click(function() {
       trigger = false;
-      $("#starting").toggle('fast');
+      $('#counters').hide('fast');
+      $("#starting").hide('fast');
+      clearInterval(gen.timer);
+      gen.time = [0, 0];
+      $("div > p:last-child").text('00 : 00').attr({'class': 'time'});
       for (var i in gen.ready) {
         gen.ready[i] = {};
       }
@@ -3557,12 +3563,126 @@ System.registerModule("main.js", [], function(require) {
     ;
   }
   ;
+  function setTimers() {
+    var zero,
+        zero1;
+    zero = '', zero1 = '';
+    gen.timer = setInterval(function() {
+      gen.time[1] += 1;
+      if (gen.time[1] == 60) {
+        gen.time[0] += 1;
+        gen.time[1] = 0;
+      }
+      ;
+      if (gen.time[1] < 10) {
+        zero1 = '0';
+      } else {
+        zero1 = '';
+      }
+      ;
+      if (gen.time[0] < 10) {
+        zero = '0';
+      } else {
+        zero = '';
+      }
+      ;
+      var timeString = zero + gen.time[0] + ' : ' + zero1 + gen.time[1];
+      $(".time").text(timeString);
+    }, 1000);
+  }
+  ;
   var gen = {
     removeIter: {},
     sort: [],
     iter: {},
-    ready: {}
+    ready: {},
+    time: [0, 0],
+    timer: {}
   };
+  function deleteElem(iterName, trigger) {
+    return $traceurRuntime.call(function(iterName, trigger) {
+      var arr,
+          elem;
+      return $traceurRuntime.continuation($traceurRuntime.createGeneratorInstance, $traceurRuntime, [$traceurRuntime.initTailRecursiveFunction(function($ctx) {
+        return $traceurRuntime.call(function($ctx) {
+          while (true)
+            switch ($ctx.state) {
+              case 0:
+                arr = document.getElementById(iterName).children;
+                $ctx.state = 9;
+                break;
+              case 9:
+                $ctx.state = (arr.length) ? 5 : 7;
+                break;
+              case 5:
+                elem = $(arr[0]);
+                elem.stop(true, true);
+                elem.animate({top: "-20px"}, 100, function() {
+                  elem.remove();
+                  gen.removeIter[iterName].next();
+                });
+                $ctx.state = 6;
+                break;
+              case 6:
+                $ctx.state = 2;
+                return;
+              case 2:
+                $ctx.maybeThrow();
+                $ctx.state = 9;
+                break;
+              case 7:
+                ;
+                $("#" + iterName + "cont").toggle('fast');
+                if (trigger)
+                  $("#sort").toggle().animate({top: "30%"}, 1000);
+                $("p.counter").text('0');
+                $ctx.state = -2;
+                break;
+              default:
+                return $traceurRuntime.continuation($ctx.end, $ctx, []);
+            }
+        }, this, arguments);
+      }), $__1, this]);
+    }, this, arguments);
+  }
+  function pasteElem(counter, a, b, iterName, speed, arr, i, j) {
+    var elem,
+        k,
+        func,
+        toLeft,
+        bLeft,
+        bTop;
+    a.css({'background-color': 'red'}).animate({top: -30}, (speed / 2), function() {
+      bLeft = b.css('left');
+      bTop = b.css('top');
+      toLeft = b.offset().left - a.offset().left;
+      k = i - 1;
+      func = function(k, j) {
+        if (k >= j) {
+          $(arr[k]).animate({left: 40}, speed, function() {
+            k -= 1;
+            func(k, j);
+          });
+        } else {
+          a.animate({left: toLeft}, speed).animate({top: 0}, (speed / 2), function() {
+            counter = $("#" + iterName + "counter").text();
+            $("#" + iterName + "counter").text(++counter);
+            a.css({'background-color': 'black'});
+            if (i == (arr.length - 1)) {
+              $(arr).css({"background-color": "blue"});
+              $("#" + iterName + 'time').removeAttr('class');
+            }
+            ;
+            $(arr[j]).before(a);
+            $("#insertion > div").animate({left: 0}, 0);
+            gen.ready[iterName].next();
+          });
+        }
+        ;
+      };
+      func(k, j);
+    });
+  }
   function changePlace(a, b, iterName, speed) {
     var aPosition = a.offset();
     var bPosition = b.offset();
@@ -3585,7 +3705,7 @@ System.registerModule("main.js", [], function(require) {
       gen.ready[iterName].next();
     });
   }
-  gen.iter.stupid = $traceurRuntime.initGeneratorFunction($traceurRuntime.initTailRecursiveFunction(function $__1(iterName, speed) {
+  gen.iter.stupid = $traceurRuntime.initGeneratorFunction($traceurRuntime.initTailRecursiveFunction(function $__2(iterName, speed) {
     return $traceurRuntime.call(function(iterName, speed) {
       var arr,
           elem,
@@ -3658,16 +3778,17 @@ System.registerModule("main.js", [], function(require) {
                 break;
               case 24:
                 $(arr).css({"background-color": "blue"});
+                $("#" + iterName + 'time').removeAttr('class');
                 $ctx.state = -2;
                 break;
               default:
                 return $traceurRuntime.continuation($ctx.end, $ctx, []);
             }
         }, this, arguments);
-      }), $__1, this]);
+      }), $__2, this]);
     }, this, arguments);
   }));
-  gen.iter.bubble = $traceurRuntime.initGeneratorFunction($traceurRuntime.initTailRecursiveFunction(function $__2(iterName, speed) {
+  gen.iter.bubble = $traceurRuntime.initGeneratorFunction($traceurRuntime.initTailRecursiveFunction(function $__3(iterName, speed) {
     return $traceurRuntime.call(function(iterName, speed) {
       var arr,
           trigger,
@@ -3740,16 +3861,17 @@ System.registerModule("main.js", [], function(require) {
                 break;
               case 22:
                 $(arr).css({"background-color": "blue"});
+                $("#" + iterName + 'time').removeAttr('class');
                 $ctx.state = -2;
                 break;
               default:
                 return $traceurRuntime.continuation($ctx.end, $ctx, []);
             }
         }, this, arguments);
-      }), $__2, this]);
+      }), $__3, this]);
     }, this, arguments);
   }));
-  gen.iter.coctail = $traceurRuntime.initGeneratorFunction($traceurRuntime.initTailRecursiveFunction(function $__3(iterName, speed) {
+  gen.iter.coctail = $traceurRuntime.initGeneratorFunction($traceurRuntime.initTailRecursiveFunction(function $__4(iterName, speed) {
     return $traceurRuntime.call(function(iterName, speed) {
       var arr,
           trigger,
@@ -3903,16 +4025,17 @@ System.registerModule("main.js", [], function(require) {
                 break;
               case 55:
                 $(arr).css({"background-color": "blue"});
+                $("#" + iterName + 'time').removeAttr('class');
                 $ctx.state = -2;
                 break;
               default:
                 return $traceurRuntime.continuation($ctx.end, $ctx, []);
             }
         }, this, arguments);
-      }), $__3, this]);
+      }), $__4, this]);
     }, this, arguments);
   }));
-  gen.iter["odd-even"] = $traceurRuntime.initGeneratorFunction($traceurRuntime.initTailRecursiveFunction(function $__4(iterName, speed) {
+  gen.iter["odd-even"] = $traceurRuntime.initGeneratorFunction($traceurRuntime.initTailRecursiveFunction(function $__5(iterName, speed) {
     return $traceurRuntime.call(function(iterName, speed) {
       var arr,
           trigger,
@@ -3996,52 +4119,7 @@ System.registerModule("main.js", [], function(require) {
                 break;
               case 24:
                 $(arr).css({"background-color": "blue"});
-                $ctx.state = -2;
-                break;
-              default:
-                return $traceurRuntime.continuation($ctx.end, $ctx, []);
-            }
-        }, this, arguments);
-      }), $__4, this]);
-    }, this, arguments);
-  }));
-  function deleteElem(iterName, trigger) {
-    return $traceurRuntime.call(function(iterName, trigger) {
-      var arr,
-          elem;
-      return $traceurRuntime.continuation($traceurRuntime.createGeneratorInstance, $traceurRuntime, [$traceurRuntime.initTailRecursiveFunction(function($ctx) {
-        return $traceurRuntime.call(function($ctx) {
-          while (true)
-            switch ($ctx.state) {
-              case 0:
-                arr = document.getElementById(iterName).children;
-                $ctx.state = 9;
-                break;
-              case 9:
-                $ctx.state = (arr.length) ? 5 : 7;
-                break;
-              case 5:
-                elem = $(arr[0]);
-                elem.stop(true, true);
-                elem.animate({top: "-20px"}, 100, function() {
-                  elem.remove();
-                  gen.removeIter[iterName].next();
-                });
-                $ctx.state = 6;
-                break;
-              case 6:
-                $ctx.state = 2;
-                return;
-              case 2:
-                $ctx.maybeThrow();
-                $ctx.state = 9;
-                break;
-              case 7:
-                ;
-                $("#" + iterName + "cont").toggle('fast');
-                if (trigger)
-                  $("#sort").toggle().animate({top: "30%"}, 1000);
-                $("p.counter").text('0');
+                $("#" + iterName + 'time').removeAttr('class');
                 $ctx.state = -2;
                 break;
               default:
@@ -4050,7 +4128,87 @@ System.registerModule("main.js", [], function(require) {
         }, this, arguments);
       }), $__5, this]);
     }, this, arguments);
-  }
+  }));
+  gen.iter.insertion = $traceurRuntime.initGeneratorFunction($traceurRuntime.initTailRecursiveFunction(function $__6(iterName, speed) {
+    return $traceurRuntime.call(function(iterName, speed) {
+      var counter,
+          arr,
+          elem,
+          elem2,
+          i,
+          j;
+      return $traceurRuntime.continuation($traceurRuntime.createGeneratorInstance, $traceurRuntime, [$traceurRuntime.initTailRecursiveFunction(function($ctx) {
+        return $traceurRuntime.call(function($ctx) {
+          while (true)
+            switch ($ctx.state) {
+              case 0:
+                arr = document.getElementById(iterName).children;
+                elem, elem2;
+                $ctx.state = 25;
+                break;
+              case 25:
+                i = 1;
+                $ctx.state = 23;
+                break;
+              case 23:
+                $ctx.state = (i < arr.length) ? 17 : 21;
+                break;
+              case 20:
+                i++;
+                $ctx.state = 23;
+                break;
+              case 17:
+                elem = $(arr[i]);
+                $ctx.state = 18;
+                break;
+              case 18:
+                j = 0;
+                $ctx.state = 16;
+                break;
+              case 16:
+                $ctx.state = (j < i) ? 10 : 14;
+                break;
+              case 13:
+                j++;
+                $ctx.state = 16;
+                break;
+              case 10:
+                elem2 = $(arr[j]);
+                $ctx.state = 11;
+                break;
+              case 11:
+                $ctx.state = (+elem.attr('value') < +elem2.attr('value')) ? 7 : 6;
+                break;
+              case 7:
+                pasteElem(counter, elem, elem2, iterName, speed, arr, i, j);
+                $ctx.state = 8;
+                break;
+              case 8:
+                $ctx.state = 2;
+                return;
+              case 2:
+                $ctx.maybeThrow();
+                $ctx.state = 14;
+                break;
+              case 6:
+                ;
+                $ctx.state = 13;
+                break;
+              case 14:
+                ;
+                $ctx.state = 20;
+                break;
+              case 21:
+                ;
+                $ctx.state = -2;
+                break;
+              default:
+                return $traceurRuntime.continuation($ctx.end, $ctx, []);
+            }
+        }, this, arguments);
+      }), $__6, this]);
+    }, this, arguments);
+  }));
   return {};
 });
 System.get("main.js" + '');
